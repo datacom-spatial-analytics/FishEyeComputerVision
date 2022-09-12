@@ -86,6 +86,15 @@ class Detector():
         with open("Dataset.json", "w") as f:
             json.dump(detection_json, f)
 
+        for dt in detections:
+            x, y, w, h, a, conf = [float(t) for t in dt]
+
+            bbox = [x, y]
+            stringcords = str(bbox)
+            stringcords.replace('[', '')
+            #print(stringcords)
+
+
         if kwargs.get('return_img', False):
             np_img = np.array(img)
             visualization.draw_dt_on_np(np_img, detections, **kwargs)
