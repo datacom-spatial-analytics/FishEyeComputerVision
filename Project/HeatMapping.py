@@ -10,8 +10,8 @@ z = [1]*len(x)
 
 rbf_adj = Rbf(x, y, z, function='gaussian')
 
-x_fine = np.linspace(0, 2, 81)
-y_fine = np.linspace(0, 2, 82)
+x_fine = np.linspace(0, 1, 81)
+y_fine = np.linspace(0, 1, 82)
 
 x_grid, y_grid = np.meshgrid(x_fine, y_fine)
 

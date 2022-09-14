@@ -4,7 +4,7 @@ import cv2
 import matplotlib.pyplot as plt
 
 
-def draw_xywha(im, x, y, w, h, angle, color=(255,0,0), linewidth=5):
+def draw_xywha(im, x, y, w, h, angle, color=(255,255,255), linewidth=5):
     '''
     im: image numpy array, shape(h,w,3), RGB
     angle: degree
@@ -19,8 +19,11 @@ def draw_xywha(im, x, y, w, h, angle, color=(255,0,0), linewidth=5):
     cv2.polylines(im, [contours], isClosed=True, color=color,
                 thickness=linewidth, lineType=cv2.LINE_4)
 
+    cv2.imwrite('Detection.jpg', im)
 
-def draw_dt_on_np(im, detections, print_dt=False, color=(255,0,0),
+
+
+def draw_dt_on_np(im, detections, print_dt=False, color=(255,255,0),
                   text_size=1, **kwargs):
     '''
     im: image numpy array, shape(h,w,3), RGB
@@ -30,6 +33,7 @@ def draw_dt_on_np(im, detections, print_dt=False, color=(255,0,0),
     font = cv2.FONT_HERSHEY_SIMPLEX
     font_bold = max(int(2*text_size), 1)
     iteration = 0
+
     for bb in detections:
         if len(bb) == 6:
             x,y,w,h,a,conf = bb
@@ -59,8 +63,10 @@ def draw_dt_on_np(im, detections, print_dt=False, color=(255,0,0),
                     font, 1.2*text_size,
                     (255,255,255), font_bold*2, cv2.LINE_AA)
 
+    cv2.imwrite('Detection.png', im)
 
-def draw_anns_on_np(im, annotations, draw_angle=False, color=(0,0,255), line_width=None):
+
+def draw_anns_on_np(im, annotations, draw_angle=False, color=(0,255,255), line_width=None):
     '''
     im: image numpy array, shape(h,w,3), RGB
     annotations: list of dict, json format
@@ -113,3 +119,6 @@ def imshow_tensor(tensor_batch):
 def plt_show(im):
     plt.imshow(im)
     plt.show()
+
+    # Save Image
+    cv2.imwrite("Detection.png", im)
