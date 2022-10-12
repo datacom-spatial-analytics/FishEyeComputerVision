@@ -72,17 +72,30 @@ class Detector():
         img = kwargs.pop('pil_img', None) or Image.open(kwargs['img_path'])
 
         detection_json = []
+        Points = []
         detections = self._predict_pil(pil_img=img, **kwargs)
         iteration = 0
 
         for dt in detections:
             x, y, w, h, a, conf = [float(t) for t in dt]
             bbox = [x, y, w, h, a]
+            Point = [x, y]
             dt_dict = {'ID': iteration, 'bbox': bbox, 'score': conf}
             detection_json.append(dt_dict)
+            Points.append(Point)
             print(dt_dict)
 
             iteration = iteration + 1
+
+
+        import pandas as pd
+        df = pd.DataFrame(detection_json)
+        df2 = pd.DataFrame(Points)
+        df2.to_csv('Dataset2.csv')
+        df.to_csv('Dataset.csv')
+
+        with open("Dataset2.json", "w") as f:
+            json.dump(Points, f)
 
         with open("Dataset.json", "w") as f:
             json.dump(detection_json, f)
