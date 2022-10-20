@@ -1,3 +1,9 @@
+from tkinter import font
+import streamlit as st
+import pandas as pd
+from PIL import Image
+import matplotlib.image as img
+
 from scipy.interpolate import Rbf  # radial basis functions
 import matplotlib.pyplot as plt
 import numpy as np
@@ -17,10 +23,17 @@ x_grid, y_grid = np.meshgrid(x_fine, y_fine)
 
 z_grid = rbf_adj(x_grid.ravel(), y_grid.ravel()).reshape(x_grid.shape)
 
+#im = img.imread('images/Datacom_3F.png')
+#plt.plot('blueprint')
+#plt.imshow(im)
+#plt.savefig('images/Datacom_T.png', dpi=500, transparent=True)
+
 plt.gca().invert_yaxis()
 #plt.gca().invert_xaxis()
 plt.pcolor(x_fine, y_fine, z_grid);
 plt.plot(x, y, 'ok');
-plt.xlabel('x'); plt.ylabel('y'); plt.colorbar();
+plt.xlabel('x'); plt.ylabel('y'); #plt.colorbar();
 plt.title('Heat Intensity Map');
-plt.show()
+
+plt.savefig('images/Heatmap.png', dpi=18, transparent=True)
+#st.experimental_rerun()
