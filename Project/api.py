@@ -4,10 +4,10 @@ from PIL import Image
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 import cv2
-
+import datetime
 import torch
 import torchvision.transforms.functional as tvf
-
+import pandas as pd
 from utils import visualization, dataloader, utils
 
 
@@ -70,35 +70,21 @@ class Detector():
         '''
         assert 'img_path' in kwargs or 'pil_img' in kwargs
         img = kwargs.pop('pil_img', None) or Image.open(kwargs['img_path'])
-
         detection_json = []
-        Points = []
+
         detections = self._predict_pil(pil_img=img, **kwargs)
         iteration = 0
 
         for dt in detections:
             x, y, w, h, a, conf = [float(t) for t in dt]
             bbox = [x, y, w, h, a]
-            Point = [x, y]
-            dt_dict = {'ID': iteration, 'bbox': bbox, 'score': conf}
+            
+            now = datetime.datetime.now()
+            DateTime = str(now).split('.')[0]
+            dt_dict = {'Date/Time':DateTime, 'ID': iteration, 'bbox': bbox, 'score': conf}
             detection_json.append(dt_dict)
-            Points.append(Point)
-            print(dt_dict)
-
+            #print(f'ID: {iteration}, bbox: {bbox}, score: {conf}')
             iteration = iteration + 1
-
-
-        import pandas as pd
-        df = pd.DataFrame(detection_json)
-        df2 = pd.DataFrame(Points)
-        df2.to_csv('Dataset2.csv')
-        df.to_csv('Dataset.csv')
-
-        with open("Dataset2.json", "w") as f:
-            json.dump(Points, f)
-
-        with open("Dataset.json", "w") as f:
-            json.dump(detection_json, f)
 
         for dt in detections:
             x, y, w, h, a, conf = [float(t) for t in dt]
@@ -108,6 +94,10 @@ class Detector():
             stringcords.replace('[', '')
             #print(stringcords)
 
+        filename = kwargs['img_path'].split('.')[1] + '.json'
+        filename = '.' + filename
+        with open(filename, "w") as f:
+            json.dump(detection_json, f)
 
         if kwargs.get('return_img', False):
             np_img = np.array(img)
@@ -145,10 +135,18 @@ class Detector():
             for dt in detections:
                 x, y, w, h, a, conf = [float(t) for t in dt]
                 bbox = [x,y,w,h,a]
-                dt_dict = {'image_id': img_id, 'bbox': bbox, 'score': conf,
-                           'segmentation': []}
+                now = datetime.datetime.now()
+                DateTime = str(now).split('.')[0]
+                dt_dict = {'Date/Time':DateTime, 'ID': iteration, 'bbox': bbox, 'score': conf}
                 detection_json.append(dt_dict)
-
+                print(f'ID: {iteration}, bbox: {bbox}, score: {conf}')
+                iteration = iteration + 1
+        
+        filename = kwargs['img_path'].split('.')[0] + '.json'
+        
+        with open(str(filename), "w") as f:
+            json.dump(detection_json, f)
+            
         return detection_json
 
     def _predict_pil(self, pil_img, **kwargs):
