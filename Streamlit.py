@@ -21,12 +21,12 @@ from scipy.stats import gaussian_kde
 
 st.write("**Datacom Spatial Analytics**")
 
-hmap = Image.open('images/Heatmap.png')
+#hmap = Image.open('images/Heatmap.png')
 
 blueprint = Image.open('images/Datacom_3F.png')
 blueprint_T = Image.open('images/Datacom_3F_T.png')
 
-blueprint_T.paste(hmap, (140,250), mask = hmap)
+#blueprint_T.paste(hmap, (140,250), mask = hmap)
 #st.image(blueprint, caption="This is the map of Datacom Level 3")
 #st.image(blueprint_T, caption="This is the Heatmapping of Datacom Level 3")
 
@@ -38,8 +38,8 @@ if st.sidebar.button('Interactive Plotting'):
 st.sidebar.subheader("**Heatmap Plot**")
 if st.sidebar.button('Datacom Level 3 Floor map'):
     st.image(blueprint, caption="This is the map of Datacom Level 3")
-if st.sidebar.button('Datacom Level 3 Floor Heatmap'):
-    st.image(blueprint_T, caption="This is the Heatmapping of Datacom Level 3")
+#if st.sidebar.button('Datacom Level 3 Floor Heatmap'):
+#    st.image(blueprint_T, caption="This is the Heatmapping of Datacom Level 3")
 #heatmap_change = st.slider("Choose the time to see the heatmap: ",value=(time(0, 00), time(23, 50)))
 #st.write("Heatmap at: ", heatmap_change)
 heatmap_change = st.slider("Choose the time to see the heatmap: ", format="hh:mm:Ss", value=(time(0, 00, 00), time(23, 59, 59)))
