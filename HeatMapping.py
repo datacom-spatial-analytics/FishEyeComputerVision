@@ -1,3 +1,5 @@
+# CAN DELETE THE FILE AND MERGE TO STREAMLIT.PY AFTER STREAMLIT WORKING
+
 from tkinter import font
 import pandas as pd
 from PIL import Image
